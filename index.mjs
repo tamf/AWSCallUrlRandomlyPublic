@@ -2,22 +2,23 @@ import fetch from 'node-fetch';
 import moment from 'moment-timezone';
 import { SchedulerClient, UpdateScheduleCommand } from '@aws-sdk/client-scheduler';
 
+// define the URLs here that you want to be hit. Only one URL gets hit per execution, chosen randomly
 const URLS = [
   'https://example.com',
   'https://example.org',
   'https://example.net'
 ];
 
-const SCHEDULE_NAME = '';
-const TIMEZONE = '';
-const REGION = '';
-const HOUR_EARLIEST = 9;
-const HOUR_LATEST = 18; // 6 PM
+const SCHEDULE_NAME = 'CallUrlScheduler';
+const TIMEZONE = ''; // IANA Time Zone Identifier, e.g. 'Europe/Paris'
+const AWS_REGION = '';
+const HOUR_EARLIEST = 9; // earliest hour (24h clock) that the function can be scheduled
+const HOUR_LATEST = 18; // latest hour (24h clock) that the function can be scheduled
 const LAMBDA_ARN = 'arn:aws:lambda:...';
 const ROLE_ARN = 'arn:aws:iam::...';
 const DLQ_ARN = 'arn:aws:sqs:...';
 
-const schedulerClient = new SchedulerClient({ region: REGION });
+const schedulerClient = new SchedulerClient({ region: AWS_REGION });
 
 export const handler = async (event) => {
   await Promise.all([
@@ -43,7 +44,7 @@ const setNextSchedule = async () => {
     ScheduleExpression: `cron(0 ${randomHour} ? * ${dayOfWeek} *)`,
     State: 'ENABLED',
     FlexibleTimeWindow: {
-      Mode: 'FLEXIBLE',
+      Mode: 'FLEXIBLE', // this adds some randomness to when during that hour the URL gets called
       MaximumWindowInMinutes: 60
     },
     Target: {
@@ -77,8 +78,6 @@ const hitEndpoint = async () => {
     if (!response.ok) {
       throw new Error(`HTTP error, status: ${response.status}`);
     }
-
-    // console.log(`Response from ${chosenUrl}: ${await response.text()}`);
 
     console.log(`Successfully fetched from ${chosenUrl}`);
   } catch (error) {

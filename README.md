@@ -1,8 +1,12 @@
 # Calling a URL intermittently from AWS
 
+## Licensing
+
+This project is licensed under the [GNU General Public License v3.0](LICENSE).
+
 ## Description
 
-This repository provides the code to call some URLs intermittently from AWS, with the purpose of mocking user traffic to those URLs in a simplistic manner. This repository and all code and other documents in this repository were created for the sole purpose of experimenting with AWS and are provided as is for educative purposes only.
+This repository provides the code to call some URLs intermittently from AWS, with the purpose of mocking user traffic to those URLs in a simplistic manner. All code, documents, files, etc. in this repository were created for the sole purpose of experimenting with AWS and are provided as is for educative purposes only.
 
 Code: [index.mjs](index.mjs)  
 AWS infrastructure: [Terraform](call_url_aws_lambda_eventbridge_setup.tf).

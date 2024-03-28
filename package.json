@@ -1,0 +1,17 @@
+{
+  "name": "callurlandsetnextrun",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-scheduler": "^3.540.0",
+    "moment-timezone": "^0.5.45",
+    "node-fetch": "^3.0.0"
+  }
+}
